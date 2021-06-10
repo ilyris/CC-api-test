@@ -480,6 +480,28 @@
           "optional": false
         }
       ]
+    },
+    {
+      "title": "Test product",
+      "description": "This is a test recipe",
+      "images": {
+        "full": "/img/default_image.jpg"
+      },
+      "servings": "1",
+      "prepTime": "10",
+      "cookTime": "20",
+      "uuid": "pLi2LE3"
+    },
+    {
+      "title": "Simon's Recipe",
+      "description": "Good burgers by Simon",
+      "images": {
+        "full": "/img/default_image.jpg"
+      },
+      "servings": "4",
+      "prepTime": "10",
+      "cookTime": "10",
+      "uuid": "B19TYjt"
     }
   ],
   "specials": [
