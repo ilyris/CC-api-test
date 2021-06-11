@@ -6,13 +6,13 @@ import DesktopMenu from './components/menus/Desktopmenu.js';
 import Recipe from './components/pages/Recipe.js';
 import AddRecipe from './components/pages/AddRecipe';
 import './index.css';
+
 function App() {
   
   return (
     <Router>
        <DesktopMenu  />
         <ComponentWrapper>
-          {/* <MobileMenu /> */}
           <Switch>
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/recipe/:id" component={Recipe} />

@@ -7,7 +7,6 @@ const DesktopMenu = (props) => {
     return(
         <MenuContainer >
             <MenuContainerInner>
-                {/* <SearchForm/> */}
                 <MenuItemsWrapper>
                 <StyledLink to="/">
                         Home

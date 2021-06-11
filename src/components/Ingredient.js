@@ -1,6 +1,7 @@
 import React from 'react'
 import S from 'styled-components'
 import Special from './Special';
+
 export function Ingredient(props) {
     const {amount, measurement, name} = props.ingredient;
 

@@ -2,68 +2,67 @@ import React,{useState, useEffect} from 'react'
 import S from 'styled-components';
 import axios from 'axios';
 import {useLocation} from 'react-router-dom';
+import {initalState} from '../../initalState';
 
 export function RecipeForm(props) {
-    const location = useLocation();
-    console.log(location);
-    const [formState, setFormState] = useState({
-        title: '',
-        description: '',
-        images:{full: "/img/default_image.jpg"},
-        servings: 0,
-        prepTime: 0,
-        cookTime: 0,
-    });
+    // const [inputs, setAddInput] = useState(['directions-input-0'])
+    // const [directions, setDirections] = useState([{
+    //     optional: false,
+    //     'directions-input-0': '',
+    // }]);
 
+    // Get route path
+    const location = useLocation();
+    // Set Forms initalState
+    const [formState, setFormState] = useState(initalState);
+
+    // If we're on the /add route, add the recipe, else edit it.
     const onSubmit = (e) => {
         e.preventDefault();
         if(location.pathname === '/add') {
-            addItem();
+            addItem(formState);
         } else {
-            updateItem();
+            updateItem(props.recipe.uuid,formState);
             props.setIsFormActive(false)
         }
     }
-
-    const updateItem = () => {
-        axios.patch(`http://localhost:3001/recipes/${props.recipe.uuid}`, formState)
+    // Function to edit the Recipe
+    const updateItem = (uuid,data) => {
+        axios.patch(`http://localhost:3001/recipes/${uuid}`, data)
         .then(res => {
-            console.log(res)
-            setFormState({
-                title: '',
-                description: '',
-                servings: 0,
-                prepTime: 0,
-                cookTime: 0,
-            })
+            setFormState(initalState)
             props.setRecipe(res.data)
         })
         .catch(err => console.log(err))
     }
-    const addItem = () => {
-        axios.post(`http://localhost:3001/recipes`, formState)
+    // Function to Add a recipe
+    const addItem = (data) => {
+        axios.post(`http://localhost:3001/recipes`, data)
         .then(res => {
-            console.log(res)
-            setFormState({
-                title: '',
-                description: '',
-                servings: 0,
-                prepTime: 0,
-                cookTime: 0,
-            })
+            setFormState(initalState)
             props.setRecipe(res.data)
         })
         .catch(err => console.log(err))
     }
+    // Event Handler to update form state
     const onChange = (e) => {
-        console.log(e)
         setFormState({ ...formState, [e.target.name]: e.target.value});
     }
+    // const onChangeDirections = (e) => {
+    //     setDirections([{optional: false, [e.target.name]: e.target.value}])
+    //     console.log(directions);
+    // }
+    
+    // Function to set the closed state of the form
     const cancelForm = (e) => {
         e.preventDefault();
-        e.stopPropagation()
         props.setIsFormActive(false)
     }
+    // const appendInput = () => {
+    //     const newInput = `directions-input-${inputs.length}`;
+    //     setAddInput([...inputs, newInput]);
+    // }
+    
     return (
         <Form onSubmit={onSubmit}>
             <Label>
@@ -74,6 +73,13 @@ export function RecipeForm(props) {
                 Description:
                 <Textarea type={'textarea'} name={'description'} value={formState.description} onChange={onChange}/>
             </Label>
+            {/* <IngredientUploadContainer>
+            <Label>
+                Directions:
+                {inputs.map(input => <Input type={'text'} name={`${input}`} onChange={onChangeDirections}/>)}
+            </Label>
+            <IngredientAddInput onClick={appendInput}>Add Another</IngredientAddInput>
+            </IngredientUploadContainer> */}
             <Label>
                 Servings:
                 <Input type={'text'} name={'servings'} value={formState.servings} onChange={onChange}/>
@@ -123,6 +129,20 @@ const Textarea = S.textarea`
     outline: unset;
     width: 100%;
 `;
+/*
+const IngredientUploadContainer = S.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`;
+const IngredientAddInput = S.div`
+    padding: 10px 25px;
+    background-color: #000;
+    color: #fff;
+    width: 50px;
+    margin-top: 25px;
+`;
+*/
 const ButtonContainer = S.div`
     widtH: 100%;
     justify-content: space-between;
